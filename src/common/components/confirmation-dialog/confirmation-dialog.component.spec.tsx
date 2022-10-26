@@ -100,7 +100,7 @@ describe('ConfirmationDialog componet spec', () => {
       name: /Cancelar/i,
     });
 
-    //userEvent.click(buttonElement);
+    userEvent.click(buttonElement);
 
     const buttonEvent = jest.spyOn(props, "onClose");
 
