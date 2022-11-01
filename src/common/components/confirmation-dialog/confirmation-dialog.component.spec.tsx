@@ -77,34 +77,89 @@ describe('ConfirmationDialog componet spec', () => {
     // Assert
     expect(element).toBeInTheDocument();
   })
-  it('Should close dialog when click on "ACEPTAR"', ()=>{
+  it('Should close dialog when click on "Cancelar"', async () => {
     // Arrange
 
     const LabelProps = {
       closeButton: "Cancelar",
       acceptButton: "Aceptar",
-    }
+    };
     const props = {
       isOpen: true,
       onAccept: () => {},
-      onClose: () => {},
+      onClose: jest.fn(),
       title: "Eliminar Elemento",
       labels: LabelProps,
       children: "¿Seguro que quiere borrar el elemento?",
-    }
+    };
 
     // Act
     render(<ConfirmationDialogComponent {...props} />);
 
     const buttonElement = screen.getByRole('button',{
-      name: /Cancelar/i,
+      name: /cancelar/i,
     });
 
-    userEvent.click(buttonElement);
-
-    const buttonEvent = jest.spyOn(props, "onClose");
+    await userEvent.click(buttonElement);
 
     // Assert
-    expect(buttonEvent).toHaveBeenCalled();
+    expect(props.onClose).toHaveBeenCalled();
+  })
+  it('Should close dialog when click on "Aceptar"', async () => {
+    // Arrange
+
+    const LabelProps = {
+      closeButton: "Cancelar",
+      acceptButton: "Aceptar",
+    };
+    const props = {
+      isOpen: true,
+      onAccept: () => {},
+      onClose: jest.fn(),
+      title: "Eliminar Elemento",
+      labels: LabelProps,
+      children: "¿Seguro que quiere borrar el elemento?",
+    };
+
+    // Act
+    render(<ConfirmationDialogComponent {...props} />);
+
+    const buttonElement = screen.getByRole('button',{
+      name: /Aceptar/i,
+    });
+
+    await userEvent.click(buttonElement);
+
+    // Assert
+    expect(props.onClose).toHaveBeenCalled();
+  })
+  it('Should accept delete element and close dialog when click on "Aceptar"', async () => {
+    // Arrange
+
+    const LabelProps = {
+      closeButton: "Cancelar",
+      acceptButton: "Aceptar",
+    };
+    const props = {
+      isOpen: true,
+      onAccept: jest.fn(),
+      onClose: jest.fn(),
+      title: "Eliminar Elemento",
+      labels: LabelProps,
+      children: "¿Seguro que quiere borrar el elemento?",
+    };
+
+    // Act
+    render(<ConfirmationDialogComponent {...props} />);
+
+    const buttonElement = screen.getByRole('button',{
+      name: /Aceptar/i,
+    });
+
+    await userEvent.click(buttonElement);
+
+    // Assert
+    expect(props.onAccept).toHaveBeenCalled();
+    expect(props.onClose).toHaveBeenCalled();
   })
 })
