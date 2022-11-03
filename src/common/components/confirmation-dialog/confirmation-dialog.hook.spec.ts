@@ -60,6 +60,7 @@ describe('useConfirmationDialog specs', () => {
     const newIsOPen = true;
     const newItemToDelete: Lookup = { id: '123456', name: 'name' };
 
+
     // Act
     const { result } = renderHook(() => useConfirmationDialog());
 
